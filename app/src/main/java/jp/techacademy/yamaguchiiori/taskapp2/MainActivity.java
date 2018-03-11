@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (seach.length() != 0) {
             RealmResults<Task> results = mRealm.where(Task.class)
                     .beginGroup()
-                    .contains("category", "")
+                    .equalTo("category", "")
                     .endGroup()
                     .findAll();
             mTaskAdapter.setTaskList(mRealm.copyFromRealm(results));
