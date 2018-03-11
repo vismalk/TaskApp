@@ -130,12 +130,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void reloadListView() {
         EditText seachtext = (EditText) findViewById(R.id.seach_edit_text);
-        if (seachtext != null) {
+        String seach = seachtext.getText().toString();
+        if (seach.length() != 0) {
             RealmResults<Task> results = mRealm.where(Task.class)
                     .beginGroup()
                     .contains("category", "")
                     .endGroup()
                     .findAll();
+            mTaskAdapter.setTaskList(mRealm.copyFromRealm(results));
+            // 表示を更新するために、アダプターにデータが変更されたことを知らせる
+            mTaskAdapter.notifyDataSetChanged();
         }else {
             // Realmデータベースから、「全てのデータを取得して新しい日時順に並べた結果」を取得
             RealmResults<Task> taskRealmResults = mRealm.where(Task.class).findAllSorted("date", Sort.DESCENDING);
