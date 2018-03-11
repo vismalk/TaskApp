@@ -133,11 +133,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String seach = seachtext.getText().toString();
         if (seach.length() != 0) {
             RealmResults<Task> results = mRealm.where(Task.class)
-                    .beginGroup()
-                    .equalTo("category", "")
-                    .endGroup()
+                    .contains("category", seach)
                     .findAll();
             mTaskAdapter.setTaskList(mRealm.copyFromRealm(results));
+            // TaskのListView用のアダプタに渡す
+            mListView.setAdapter(mTaskAdapter);
             // 表示を更新するために、アダプターにデータが変更されたことを知らせる
             mTaskAdapter.notifyDataSetChanged();
         }else {
